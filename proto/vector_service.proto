@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package vector_service;
+
+service VectorService {
+  rpc Upsert (UpsertRequest) returns (UpsertResponse);
+  rpc Query (QueryRequest) returns (QueryResponse);
+}
+
+message Vector {
+  string id = 1;
+  repeated float values = 2;
+  map<string, string> metadata = 3;
+}
+
+message UpsertRequest {
+  repeated Vector vectors = 1;
+  string namespace = 2;
+}
+
+message UpsertResponse {
+  int32 upserted_count = 1;
+}
+
+message QueryRequest {
+  repeated float vector = 1;
+  string namespace = 2;
+  int32 top_k = 3;
+  bool include_values = 4;
+  bool include_metadata = 5;
+}
+
+message QueryResponse {
+  repeated Match matches = 1;
+}
+
+message Match {
+  string id = 1;
+  double score = 2;
+  repeated float values = 3;
+  map<string, string> metadata = 4;
+}

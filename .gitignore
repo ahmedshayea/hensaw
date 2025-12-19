@@ -1,0 +1,9 @@
+# --- Global ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Docker ---
+.docker/
