@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     cors_allow_headers: list[str] = ["*"]
 
     # Database settings (example)
-    database_url: str = "postgresql://user:password@localhost:5432/hensaw"
+    database_url: str = "postgresql://localhost:5432/hensaw"
     database_pool_size: int = 10
     database_max_overflow: int = 20
 
@@ -52,7 +52,7 @@ class Settings(BaseSettings):
     embedding_dimension: int = 1536
 
     # Security settings
-    secret_key: str = "change-me-in-production"
+    secret_key: str = ""
     api_key: str | None = None
 
     # Logging settings
