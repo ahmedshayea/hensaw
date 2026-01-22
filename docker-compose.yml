@@ -1,18 +1,17 @@
 services:
   engine:
-    build: ./services/engine
-    ports:
-      - "50051:50051"
-    volumes:
-      - ./data/engine:/app/data
+    build:
+      context: ./services/engine
+      dockerfile: Dockerfile
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - ENGINE_PORT=50051
     ports:
       - "50051:50051"
-      - "5005:5005" # Debug port
 
   gateway:
-    build: ./services/gateway
+    build:
+      context: ./services/gateway
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     depends_on:
@@ -20,17 +19,14 @@ services:
     environment:
       - ENGINE_GRPC_HOST=engine
       - ENGINE_GRPC_PORT=50051
-    volumes:
-      - ./services/gateway:/app
-
   web:
-    build: ./services/web
+    build:
+      context: ./services/web
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - gateway
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
-    volumes:
-      - ./services/web:/app
-      - /app/node_modules
+      - NEXT_PUBLIC_API_URL=http://gateway:8000
+#      - NEXT_TELEMETRY_DISABLED=1
